@@ -9,7 +9,7 @@ const Gallery = ({ errors, photos, dispatch }) => {
   useEffect(() => {
     setIsLoading(true);
     dispatch(startLoadPhotos());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (photos.length > 0) {
