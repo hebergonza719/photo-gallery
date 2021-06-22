@@ -50,9 +50,25 @@ Router.get('/photos', async (req, res) => {
   }
 });
 
+Router.delete('/photos/:id', async (req, res) => {
+  try {
+    await Photo.deleteOne({ _id: req.params.id }, (err, result) => {
+      if (err) {
+        res.json(err);
+      } else {
+        res.json(result);
+      }
+    });
+    // res.status(202).send();
+  } catch (error) {
+    res.status(500).send({ get_error: 'Error while deleting photo.' });
+  }
+});
+
 Router.get('/photos/:id', async (req, res) => {
   try {
     const result = await Photo.findById(req.params.id);
+    // why?
     res.set('Content-Type', 'image/jpeg');
     res.send(result.photo);
   } catch (error) {

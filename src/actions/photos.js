@@ -29,7 +29,24 @@ export const startLoadPhotos = () => {
   };
 };
 
+export const deletePhoto = (id) => {
+  return async (dispatch) => {
+    try {
+      await axios.delete(`${BASE_API_URL}/photos/${id}`);
+      const photos = await axios.get(`${BASE_API_URL}/photos`);
+      dispatch(loadPhotos(photos.data));
+    } catch (error) {
+      error.response && dispatch(getErrors(error.response.data))
+    }
+  };
+};
+
 export const loadPhotos = (photos) => ({
   type: 'LOAD_PHOTOS',
   photos
 });
+
+// export const reloadPhotos = (photos) => ({
+//   type: 'RELOAD_PHOTOS',
+//   photos
+// });

@@ -6,6 +6,7 @@ require('./db/connection');
 const app = express();
 const PORT = process.env.PORT || 3300;
 
+// we ensure that the server will accept incoming requests from any client.
 app.use(cors());
 app.use(photosRouter);
 

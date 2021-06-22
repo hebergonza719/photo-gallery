@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { startLoadPhotos } from '../actions/photos';
 import Photo from './Photo';
+import { Gallery as Gal } from 'react-photoswipe-gallery'
+
 
 const Gallery = ({ errors, photos, dispatch }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -22,10 +24,12 @@ const Gallery = ({ errors, photos, dispatch }) => {
       {errors && errors.get_error && (
         <p className="errorMsg centered-message">{errors.get_error}</p>
       )}
-      {isLoading ? (
+      {isLoading? (
         <div className="loading-msg centered-message">Loading...</div>
       ) : (
-        photos.map((photo) => <Photo key={photo._id} id={photo._id} />)
+        <Gal>
+          {photos.map((photo) => <Photo key={photo._id} id={photo._id} />)}
+        </Gal>
       )}
     </div>
   );

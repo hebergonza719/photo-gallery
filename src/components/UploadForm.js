@@ -19,6 +19,7 @@ const UploadForm = ({ errors, dispatch }) => {
   const handleOnChange = (event) => {
     const file = event.target.files[0];
     setPhoto(file);
+    setIsSubmitted(false);
   };
 
   const handleFormSubmit = (event) => {
@@ -27,29 +28,21 @@ const UploadForm = ({ errors, dispatch }) => {
       setErroMsg('');
       dispatch(beginAddPhoto(photo));
       setIsSubmitted(true);
+      setPhoto(null);
     }
   };
 
   return (
     <React.Fragment>
-      {errorMsg && errorMsg.upload_error ? (
-        <p className="errorMsg centered-message">{errorMsg.upload_error}</p>
-      ) : (
-        isSubmitted && (
-          <p className="successMsg centered-message">
-            Photo uploaded successfully.
-          </p>
-        )
-      )}
       <Form
         onSubmit={handleFormSubmit}
         method="post"
         encType="multipart/form-data"
         className="upload-form"
       >
-        <Form.Group>
-          <Form.Label>Choose photo to upload</Form.Label>
-          <Form.Control type="file" name="photo" onChange={handleOnChange} />
+        <Form.Group className="form-group-cont">
+          {isSubmitted ? <Form.Label>Upload another file</Form.Label> : <Form.Label>Choose photo to upload</Form.Label>}
+          <Form.Control type="file" name="photo" onChange={handleOnChange}/>
         </Form.Group>
         <Button
           variant="primary"
@@ -60,6 +53,15 @@ const UploadForm = ({ errors, dispatch }) => {
           Upload
         </Button>
       </Form>
+      {errorMsg && errorMsg.upload_error ? (
+        <p className="errorMsg centered-message">{errorMsg.upload_error}</p>
+      ) : (
+        isSubmitted && (
+          <p className="successMsg centered-message">
+            Photo uploaded successfully.
+          </p>
+        )
+      )}
     </React.Fragment>
   );
 };
